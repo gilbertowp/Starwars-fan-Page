@@ -1,0 +1,17 @@
+button{
+    background-color: black;
+    color: white;
+    stroke: white;
+    border: 2px white solid;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    font-family: 'Star Jedi', sans-serif;
+}
+
+button:hover{
+    cursor: pointer;
+    color: black;
+    background-color: #BD9100;
+    transition: ease 1s;
+}

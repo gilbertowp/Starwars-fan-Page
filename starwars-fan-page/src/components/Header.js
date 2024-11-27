@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Header.css"
 
 function NavBar() {
     return (
@@ -9,8 +10,8 @@ function NavBar() {
             </div>
             <div className="nav-options">
                 <p><strong><Link to="/category/people">Personajes</Link></strong></p>
-                <p><strong><Link to="/category/films">Película</Link></strong></p>
-                <p><strong><Link to="/category/species">Especie</Link></strong></p>
+                <p><strong><Link to="/category/films">Películas</Link></strong></p>
+                <p><strong><Link to="/category/species">Especies</Link></strong></p>
             </div>
 
 

@@ -1,0 +1,38 @@
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: black;
+    padding: 10px 40px;
+}
+
+.nav-img img {
+    width: 80px; 
+    cursor: pointer;
+}
+
+.nav-options {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 80px; 
+}
+
+.nav-options p {
+    margin: 0;
+}
+
+.nav-options a {
+    color: #ffffff82; 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    transition: transform 0.3s, text-shadow 0.3s; 
+}
+
+.nav-options a:hover {
+    transform: scale(1.1); 
+    text-shadow: 0 0 10px #FFFF00, 0 0 20px #FFD700; 
+}

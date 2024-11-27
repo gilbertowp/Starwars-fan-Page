@@ -12,6 +12,7 @@ function ElementDetails({ selectedCategory,id }) {
 
     useEffect(() => {
         if (selectedCategory=="people"){
+            if (id>=17)id=id+1
             fetch(`https://swapi.dev/api/${selectedCategory}/${id}`)
                 .then((response) => response.json())
                 .then((data) => {
@@ -138,28 +139,21 @@ function ElementDetails({ selectedCategory,id }) {
     if (selectedCategory=="people"){
         if (id) return (
         <div className="details-card">
-            <div className="details-card-img">
-                <img src={`${process.env.PUBLIC_URL}/personajes/${id}.png`} alt="imagen"/>
+            <div className="details-card-info">
+                <h3>{element.name}</h3>
+                <p><strong>Género:</strong>{element.gender}</p>
+                <p><strong>Especie:  </strong>{characterSpecies}</p>
+                <p><strong>Lugar de residencia: </strong>{characterHomeWorld}</p>
             </div>
             <div className="details-card-text">
-                <h3>{element.name}</h3>
-                <p><strong>Género: </strong>{element.gender}</p>
-                <p><strong>Cumpleaños: </strong>{element.birth_year}</p>
-                <p><strong>Lugar de residencia: </strong>{characterHomeWorld}</p>
-                <p><strong>Películas: </strong>
-                    <ul>
-                        {characterMovies.map((title, index) => (
-                            <li key={index}>{title}</li>
-                        ))}
-                    </ul>
-                </p>
-                <p><strong>Especie: </strong>
-                    <ul>
-                        {characterSpecies.map((title, index) => (
-                            <li key={index}>{title}</li>
-                        ))}
-                    </ul>
-                </p>
+                <div className="details-card-text-desc">
+                    <p><strong>Películas: </strong>
+                        <ul>
+                            {characterMovies.map((title, index) => (
+                                <li key={index}>{title}</li>
+                            ))}
+                        </ul>
+                    </p>
                 <p><strong>Naves espaciales: </strong>
                     <ul>
                         {characterStarships.map((title, index) => (
@@ -167,6 +161,10 @@ function ElementDetails({ selectedCategory,id }) {
                         ))}
                     </ul>
                 </p>
+                </div>
+                <div className="details-card-img">
+                    <img src={`${process.env.PUBLIC_URL}/personajes/${id}.png`} alt="imagen"/>
+                </div>
             </div>
         </div>
     );
@@ -177,15 +175,20 @@ function ElementDetails({ selectedCategory,id }) {
     if (selectedCategory=="films"){
     if (id) return (
         <div className="details-card">
-            <div className="details-card-img">
-                <img src={`${process.env.PUBLIC_URL}/films/${id}.png`} alt="imagen"/>
+            <div className="details-card-info">
+            <h3>{element.title}</h3>
+            <p><strong>Sinopsis: </strong>{element.opening_crawl}</p>
             </div>
             <div className="details-card-text">
-                <h3>{element.title}</h3>
-                <p><strong>Sinopsis: </strong>{element.opening_crawl}</p>
-                <p><strong>Director </strong>{element.director}</p>
-                <p><strong>Productor/Productores </strong>{element.producer}</p>
-                <p><strong>Fecha de lanzamiento </strong>{element.release_date}</p>
+                <div className="details-card-text-desc">
+                    <p><strong>Director </strong>{element.director}</p>
+                    <p><strong>Productor/Productores </strong>{element.producer}</p>
+                    <p><strong>Fecha de lanzamiento </strong>{element.release_date}</p>
+                </div>
+                <div className="details-card-img">
+                <img src={`${process.env.PUBLIC_URL}/films/${id}.jpg`} alt="imagen"/>
+                </div>
+            
             </div>
         </div>
     );
@@ -194,13 +197,13 @@ function ElementDetails({ selectedCategory,id }) {
 if (selectedCategory=="species"){
     if (id) return (
         <div className="details-card">
-            <div className="details-card-img">
-                <img src={`${process.env.PUBLIC_URL}/species/${id}.webp`} alt="imagen"/>
-            </div>
-            <div className="details-card-text">
+            <div className="details-card-info">
                 <h3>{element.name}</h3>
                 <p><strong>Clasificación: </strong>{element.classification}</p>
                 <p><strong>Designación: </strong>{element.designation}</p>
+            </div>
+            <div className="details-card-text">
+            <div className="details-card-text-desc">
                 <p><strong>Vida promedio: </strong>{element.average_lifespan} Años estandar</p>
                 <p><strong>Lengua: </strong>{element.language}</p>
                 <p><strong>Hogar: </strong>{characterHomeWorld}</p>
@@ -211,6 +214,10 @@ if (selectedCategory=="species"){
                         ))}
                     </ul>
                 </p>
+                </div>
+                <div className="details-card-img">
+                    <img src={`${process.env.PUBLIC_URL}/species/${id}.webp`} alt="imagen"/>
+                </div>
             </div>
         </div>
     );

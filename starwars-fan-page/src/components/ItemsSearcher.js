@@ -1,10 +1,11 @@
 import React from "react";
+import "./itemSearcher.css";
 
 function SearchBar({ searchText, setSearchText, onFilter }) {
     const handleInputChange = (event) => {
         const value = event.target.value.toLowerCase();
-        setSearchText(value); // Actualiza el texto en el estado del componente padre
-        onFilter(value); // Llama a la función de filtrado
+        setSearchText(value);
+        onFilter(value); 
     };
 
     return (
