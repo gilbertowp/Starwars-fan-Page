@@ -1,19 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import HomeCards from "./HomeCard";
+import NavBar from "./Header";
 
-function HomePage() {
-    return (
-        <div>
-            <h1>Página principal</h1>
-            <p>Selecciona una categoría:</p>
-            <ul>
-                <li><Link to="/category/people">Personajes</Link></li>
-                <li><Link to="/category/movies">Películas</Link></li>
-                <li><Link to="/category/starships">Naves</Link></li>
-            </ul>
-        </div>
-    );
+function HomePage (){
+
+    return(
+    <div>
+        <NavBar></NavBar>;
+        <HomeCards></HomeCards>;
+    </div>
+    
+    )
 }
 
-export default HomePage;
-
+export default HomePage

@@ -2,27 +2,28 @@ import React, { useState, useEffect } from "react";
 import './ElementDetails.css'
 import ItemCard from "./ElementCard";
 
-function ElementDetails({ id }) {
+function ElementDetails({ selectedCategory,id }) {
     const [element, setElement] = useState(null);
     const [characterHomeWorld, setCharacterHomeWorld] = useState("");
     const [characterMovies, setCharacterMovies] = useState([]);
     const [characterSpecies, setCharacterSpecies] = useState([]);
     const [characterStarships, setCharacterStarships] = useState([]);
-    
-    useEffect(() => {
+    const [speciesExamples, setSpeciesExamples] = useState([]);
 
-            fetch(`https://swapi.dev/api/people/${id}`)
+    useEffect(() => {
+        if (selectedCategory=="people"){
+            fetch(`https://swapi.dev/api/${selectedCategory}/${id}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setElement(data);
                     const filmUrls = data.films;
                     const speciesUrls = data.species;
                     const starshipsUrls = data.starships;
-                    const homeworldUrl = data.homeworld;
+                    const homeworld = data.homeworld;
                 
                     ////Para lugar de residencia del personaje
-                    if (homeworldUrl !== "") {
-                        fetch(homeworldUrl).then((res) => res.json())
+                    if (homeworld!== "") {
+                        fetch(homeworld).then((res) => res.json())
                             .then((homeworldName) => {
                                 setCharacterHomeWorld(homeworldName.name);
                             })
@@ -73,14 +74,69 @@ function ElementDetails({ id }) {
                     ////
                 })
                 .catch((error) => console.error("Error al obtener los datos del personaje:", error));
-        }
+            }
 
-    
+
+        if (selectedCategory=="films"){
+                fetch(`https://swapi.dev/api/${selectedCategory}/${id}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setElement(data);
+                    })
+                    .catch((error) => console.error("Error al obtener los datos de la película:", error));
+            }
+        
+        if (selectedCategory=="species"){
+                fetch(`https://swapi.dev/api/${selectedCategory}/${id}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setElement(data);
+                        const homeworld = data.homeworld;
+                        const peopleUrls=data.people;
+                        ////Para lugar de residencia de la especie
+                    if (homeworld!=="") {
+                        fetch(homeworld).then((res) => res.json())
+                            .then((homeworldName) => {
+                                setCharacterHomeWorld(homeworldName.name);
+                            })
+                            .catch((error) => {
+                                console.error("Error al cargar el lugar de residencia:", error);
+                            });
+                    } else {
+                        setCharacterHomeWorld("No se encontró un lugar de residencia de la especie");
+                    }
+                    ////
+
+                     ////Para ejemplos de la especie
+                    if (peopleUrls.length > 0) {
+                        Promise.all(peopleUrls.map((url) => fetch(url).then((res) => res.json())))
+                            .then((peopleData) => {
+                                setSpeciesExamples(peopleData.map((person) => person.name));
+                            })
+                            .catch((error) => {
+                                console.error("Error al cargar ejemplos de esta especie:", error);
+                            });
+                    } else {
+                        setSpeciesExamples(["No se encontraron ejemplos de esta especie"]);
+                    }
+                    ////
+
+
+
+                    })
+                    .catch((error) => console.error("Error al obtener los datos de la especie", error));
+            }
+        }
+        
+        
+
+
     , [id]);
 
-    if (!element) return <p>Cargando detalles del personaje...</p>;
-
-    if (id) return (
+    if (!element) return <p>Cargando detalles del item seleccionado...</p>;
+    
+    if (selectedCategory=="people"){
+        if (id) return (
         <div className="details-card">
             <div className="details-card-img">
                 <img src={`${process.env.PUBLIC_URL}/personajes/${id}.png`} alt="imagen"/>
@@ -114,6 +170,54 @@ function ElementDetails({ id }) {
             </div>
         </div>
     );
+
+        
+}
+
+    if (selectedCategory=="films"){
+    if (id) return (
+        <div className="details-card">
+            <div className="details-card-img">
+                <img src={`${process.env.PUBLIC_URL}/films/${id}.png`} alt="imagen"/>
+            </div>
+            <div className="details-card-text">
+                <h3>{element.title}</h3>
+                <p><strong>Sinopsis: </strong>{element.opening_crawl}</p>
+                <p><strong>Director </strong>{element.director}</p>
+                <p><strong>Productor/Productores </strong>{element.producer}</p>
+                <p><strong>Fecha de lanzamiento </strong>{element.release_date}</p>
+            </div>
+        </div>
+    );
+}
+
+if (selectedCategory=="species"){
+    if (id) return (
+        <div className="details-card">
+            <div className="details-card-img">
+                <img src={`${process.env.PUBLIC_URL}/species/${id}.webp`} alt="imagen"/>
+            </div>
+            <div className="details-card-text">
+                <h3>{element.name}</h3>
+                <p><strong>Clasificación: </strong>{element.classification}</p>
+                <p><strong>Designación: </strong>{element.designation}</p>
+                <p><strong>Vida promedio: </strong>{element.average_lifespan} Años estandar</p>
+                <p><strong>Lengua: </strong>{element.language}</p>
+                <p><strong>Hogar: </strong>{characterHomeWorld}</p>
+                <p><strong>Personajes de esta especie: </strong>
+                    <ul>
+                        {speciesExamples.map((title, index) => (
+                            <li key={index}>{title}</li>
+                        ))}
+                    </ul>
+                </p>
+            </div>
+        </div>
+    );
+}
+
+
+
 }
 
 export default ElementDetails;

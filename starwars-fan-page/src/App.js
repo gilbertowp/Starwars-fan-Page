@@ -7,13 +7,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                {/* Página principal */}
-                <Route path="" element={<HomePage />} />
-
-                {/* Página de categorías */}
+                <Route path="/" element={<HomePage />} />
                 <Route path="/category/:category" element={<CategoryPage />} />
-
-                {/* Puedes agregar otras rutas si es necesario */}
             </Routes>
         </Router>
     );
